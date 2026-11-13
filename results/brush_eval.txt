@@ -1,0 +1,7 @@
+Eval iter 5000: PSNR 13.135304, ssim 0.4493093
+Eval iter 10000: PSNR 12.990576, ssim 0.4373474
+Eval iter 15000: PSNR 12.941761, ssim 0.43181378
+Eval iter 20000: PSNR 12.884631, ssim 0.42751786
+Eval iter 25000: PSNR 12.840332, ssim 0.42304933
+Eval iter 30000: PSNR 12.808296, ssim 0.42021167
+Done training! Took FormattedDuration(1182s).
