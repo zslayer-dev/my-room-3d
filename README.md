@@ -2,7 +2,7 @@
 
 폰으로 30초 찍은 방 영상에서 3차원 장면을 만들어 웹에 올렸습니다.
 복원은 코랩이 아니라 **내 컴퓨터의 Intel Arc A770**에서 했고, 같은 데이터로
-**Brush 3DGS 학습**까지 비교했습니다.
+**Brush 3DGS 학습**까지 비교했습니다. 같은 복원을 **코랩 T4** 에서도 돌려 결과가 같은지 확인했습니다.
 
 **보기** https://zslayer-dev.github.io/my-room-3d/ (공개본)
 · **Brush 3DGS 학습본** https://zslayer-dev.github.io/my-room-3d/?f=compare/brush30k.sog
@@ -124,6 +124,31 @@ gsplat 등 대부분의 학습 도구는 CUDA 전용이지만 Brush 는 WebGPU �
 GPU 변환이 처음엔 WebGPU 장치 오류로 실패했고 `-N`(NaN 등 이상값 제거)을 붙여 성공했습니다.
 Brush 결과는 MapAnything 좌표(Y 아래)라 `-r 180,0,0` 으로 돌려 저장했습니다.
 
+## 코랩 T4 와 비교
+
+Windows 라 Colab CLI 대신 **Colab MCP** 로 브라우저의 코랩 노트(T4 GPU)에 연결해, 공개본과
+**같은 24장·같은 설정**(fp16, 신뢰도 하위 10% 제거)으로 복원했습니다 ([scripts/colab_t4_recon.py](scripts/colab_t4_recon.py)).
+
+| 항목 | A770 (로컬) | T4 (코랩) |
+|---|---|---|
+| 복원 시간 | 13.6초 | **9.7초** (첫 실행 14.3초) |
+| 최대 GPU 메모리 | 6.75GB | 6.99GB |
+| 점 (원래 → 튄 점 제외) | 3,102,522 → 3,019,396 | 3,102,500 → 3,019,365 |
+| 카메라 퍼짐 비 | 0.4512 | 0.4512 |
+| 카메라 위치 차이 | — | 평균 **0.08mm**, 최대 0.15mm |
+| 점구름 차이 | — | 중앙값 **0.10mm**, 95% 0.23mm |
+
+([측정 결과](results/compare_a770_t4.txt), [비교 스크립트](scripts/compare_t4.py))
+
+- **결과는 사실상 같습니다.** 장면 대각선 4.41m 에 차이가 0.1mm 대로, fp16 반올림 수준입니다.
+- **T4 가 약 30% 빠릅니다.** 다만 첫 실행은 A770 과 비슷하고, 코랩은 모델 내려받기·준비에 160초가 더 듭니다.
+  이 정도 작업이면 로컬 A770 으로 충분하고, 코랩은 gsplat 같은 CUDA 전용 도구가 필요할 때 씁니다.
+- **함정** — 처음엔 점구름 차이가 5.5mm 로 나왔는데, A770 결과끼리 같은 방법으로 재도 5.51mm 였습니다.
+  양쪽 다 20만 개 표본만 쓰면 **표본 사이 간격이 거리로 잡힌 것**이라, 한쪽 표본을 다른 쪽 전체와 비교하도록 고쳤습니다.
+- **Colab MCP 설정** — `colab-mcp` 는 파이썬 3.13 이상이 필요해 `uvx --python 3.13` 으로 고정했습니다.
+  프로젝트 `.mcp.json` 은 승인 대기로 불러와지지 않아 `claude mcp add -s local` 로 등록했고, 등록 후 새 세션에서 도구가 보였습니다.
+  프레임은 코랩 파일 창에 직접 끌어다 놓았습니다(저장소에는 올리지 않음).
+
 ## 비교 파일 열기
 
 주소 뒤에 `?f=` 를 붙이면 됩니다.
@@ -185,7 +210,9 @@ npx -y @playcanvas/splat-transform@3.10.3 -w -N out/brush_30k/export_30000.ply -
 | [scripts/make_splat.py](scripts/make_splat.py) | 저장한 점에서 K 만 바꿔 PLY 다시 만들기 |
 | [scripts/export_brush.py](scripts/export_brush.py) | Brush 용 Nerfstudio 데이터셋 내보내기 (내부값을 원본 해상도로 되돌림) |
 | [scripts/check_proj.py](scripts/check_proj.py) | 내보낸 카메라로 점을 사진에 투영해 정렬 확인 |
-| [results/](results/) | 버전별 측정값(JSON), Brush 평가 로그 |
+| [scripts/colab_t4_recon.py](scripts/colab_t4_recon.py) | 코랩 T4 셀: 같은 프레임으로 MapAnything 복원 → 측정값·점 저장 |
+| [scripts/compare_t4.py](scripts/compare_t4.py) | A770 과 T4 결과 비교 (시간·메모리·카메라·점구름 거리) |
+| [results/](results/) | 버전별 측정값(JSON), Brush 평가 로그, A770·T4 비교 |
 
 ## 라이선스와 출처
 

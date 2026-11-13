@@ -1,0 +1,12 @@
+{
+  "device": "Tesla T4",
+  "torch": "2.14.1+cu130",
+  "frames": 24,
+  "load_sec": 160.3206615447998,
+  "recon_warm_sec": 14.253987073898315,
+  "recon_sec": 9.747990608215332,
+  "peak_gb": 6.994750464,
+  "points_raw": 3102500,
+  "splats": 3019365,
+  "spread_ratio": 0.45124088316450234
+}
