@@ -138,7 +138,8 @@ Windows 라 Colab CLI 대신 **Colab MCP** 로 브라우저의 코랩 노트(T4 
 | 카메라 위치 차이 | — | 평균 **0.08mm**, 최대 0.15mm |
 | 점구름 차이 | — | 중앙값 **0.10mm**, 95% 0.23mm |
 
-([측정 결과](results/compare_a770_t4.txt), [비교 스크립트](scripts/compare_t4.py))
+([측정 결과](results/compare_a770_t4.txt), [비교 스크립트](scripts/compare_t4.py),
+**T4 결과 보기** https://zslayer-dev.github.io/my-room-3d/?f=compare/room24s_c10_t4.sog)
 
 - **결과는 사실상 같습니다.** 장면 대각선 4.41m 에 차이가 0.1mm 대로, fp16 반올림 수준입니다.
 - **T4 가 약 30% 빠릅니다.** 다만 첫 실행은 A770 과 비슷하고, 코랩은 모델 내려받기·준비에 160초가 더 듭니다.
@@ -160,6 +161,7 @@ Windows 라 Colab CLI 대신 **Colab MCP** 로 브라우저의 코랩 노트(T4 
 | [`?f=compare/room48_k1.4.sog`](https://zslayer-dev.github.io/my-room-3d/?f=compare/room48_k1.4.sog) | 48장 (32MB) |
 | [`?f=compare/room24s_c20.sog`](https://zslayer-dev.github.io/my-room-3d/?f=compare/room24s_c20.sog) | 신뢰도 20% |
 | [`?f=compare/brush30k.sog`](https://zslayer-dev.github.io/my-room-3d/?f=compare/brush30k.sog) | Brush 3DGS 학습 |
+| [`?f=compare/room24s_c10_t4.sog`](https://zslayer-dev.github.io/my-room-3d/?f=compare/room24s_c10_t4.sog) | 코랩 T4 복원 (공개본과 같은 설정) |
 
 ## 한계 — 어디가 안 나왔고 왜
 
