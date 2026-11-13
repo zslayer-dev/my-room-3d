@@ -4,7 +4,8 @@
 복원은 코랩이 아니라 **내 컴퓨터의 Intel Arc A770**에서 했고, 같은 데이터로
 **Brush 3DGS 학습**까지 비교했습니다.
 
-**보기** https://zslayer-dev.github.io/my-room-3d/
+**보기** https://zslayer-dev.github.io/my-room-3d/ (공개본)
+· **Brush 3DGS 학습본** https://zslayer-dev.github.io/my-room-3d/?f=compare/brush30k.sog
 
 ![뷰어 화면](shots/viewer.png)
 
